@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+<head>
+    {% block title %} All Reads {% endblock %}
+</head>
+<body>
+    {% block header %} All Reads {% endblock %}
+
+    {% block chart %}
+        var chart_labels = '{{labels}}'.split(',');
+        var chart_values_temp = {{values_temp|safe}};
+        var chart_values_hum = {{values_hum|safe}};
+
+        buildMixedChart(chart_labels, chart_values_temp, chart_values_hum);
+    {% endblock %}
+</body>

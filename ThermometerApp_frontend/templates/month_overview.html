@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+<head>
+    {% block title %} Month Overview {% endblock %}
+</head>
+<body>
+    {% block header %} Month Overview {% endblock %}
+
+    {% block chart %}
+    var chart_labels = {{labels|safe}};
+    var chart_values_temp = {{values_temp|safe}};
+    var chart_values_hum = {{values_hum|safe}};
+
+    buildMixedChart(chart_labels, chart_values_temp, chart_values_hum);
+    {% endblock %}
+
+    {% block calendar %}
+        <br>
+            <div class="container calendar">
+                <form action="/specific_date" method="POST">
+                    {% csrf_token %}
+                    <input type="month" id="select_date" name="select_date"
+                        value={{calendar_today}} min={{calendar_first_month}} max={{calendar_last_month}} onchange="this.form.submit()">
+                </form>
+            </div>
+    {% endblock %}
+</body>

@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <head>
+        {# Bootstrap Stuff #}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <script src="{% static 'script.js' %}"></script>
+
+        <title> {% block title %} Base Page {% endblock %} </title>
+    </head>
+
+
+
+    <body>
+        <br>
+        <div>
+            <div class="sticky-top">
+                <h1 class="text-center"> {% block header %} Base Title {% endblock %} </h1>
+                <!-- Top Navigation Menu -->
+                <div class="topnav">
+                  <a class="active"></a>
+                  <!-- Navigation links (hidden by default) -->
+                  <div id="myLinks">
+                    <a href="{% url 'last_24h' %}">Last 24 Hours</a>
+                    <a href="{% url 'last_hour' %}">Last Hour</a>
+                    <a href="{% url 'specific_date' %}">Select a Date</a>
+                    <a href="{% url 'month_overview' %}">Select a Month</a>
+                  </div>
+                  <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+                  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                    <i class="fa fa-bars"></i>
+                  </a>
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <canvas id="myChart"></canvas>
+                <script>
+                    {% block chart %}
+
+                    {% endblock %}
+                </script>
+            </div>
+            {% block calendar %}
+
+            {% endblock %}
+        </div>
+    </body>
+
+
+</html>

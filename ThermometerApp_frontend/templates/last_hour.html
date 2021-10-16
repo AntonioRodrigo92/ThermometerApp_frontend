@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+<head>
+    {% block title %} Last Hour Readings {% endblock %}
+</head>
+<body>
+    {% block header %} Last Hour Readings {% endblock %}
+
+    {% block chart %}
+    var chart_labels = '{{labels}}'.split(',');
+    var chart_values_temp = {{values_temp|safe}};
+    var chart_values_hum = {{values_hum|safe}};
+
+    buildMixedChart(chart_labels, chart_values_temp, chart_values_hum);
+    {% endblock %}
+</body>
