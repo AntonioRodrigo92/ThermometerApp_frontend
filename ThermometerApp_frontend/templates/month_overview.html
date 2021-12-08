@@ -17,7 +17,7 @@
     {% block calendar %}
         <br>
             <div class="container calendar">
-                <form action="/specific_date" method="POST">
+                <form action="/month_overview" method="POST">
                     {% csrf_token %}
                     <input type="month" id="select_date" name="select_date"
                         value={{calendar_today}} min={{calendar_first_month}} max={{calendar_last_month}} onchange="this.form.submit()">
