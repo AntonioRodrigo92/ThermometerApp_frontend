@@ -1,8 +1,10 @@
 from bson import SON
+from django.http import JsonResponse
 from django.shortcuts import render
 import json
 from datetime import datetime, timedelta
 import pymongo
+import datetime
 
 
 def all_reads(request):
@@ -26,6 +28,20 @@ def all_reads(request):
         'values_hum': values_hum,
     }
     return render(request, 'all_reads.html', context)
+
+
+def is_updated(request):
+    coll = get_collection()
+    last_read = get_last_measure(coll)
+    time_now = datetime.datetime.now()
+    time_difference = time_now - last_read
+    time_difference_in_minutes = time_difference.total_seconds() / 60
+    updated = True if time_difference_in_minutes <= 30 else False
+    resp_json = {'last_read': last_read,
+                 'time_now': time_now,
+                 'time_diff_seconds': time_difference_in_minutes,
+                 'is_updated': updated}
+    return JsonResponse(resp_json)
 
 
 def last_24h(request):
@@ -204,9 +220,9 @@ def get_collection():
         client = pymongo.MongoClient("")
         client.server_info()
     except:
-        client = pymongo.MongoClient("")
-    database = client[""]
-    collection = database.get_collection("").find()
+        client = pymongo.MongoClient("mongodb+srv://AntonioRodrigo:PalavraPasse1@rinchoa.txroh.mongodb.net/Measurements?retryWrites=true&w=majority")
+    database = client["Measurements"]
+    collection = database.get_collection("readings").find()
     client.close()
     return collection
 
@@ -277,6 +293,11 @@ def get_specific_day_readings(collection, date):
 
 def get_first_measure(collection):
     doc = collection.collection.find().sort("timestamp", pymongo.ASCENDING).limit(1)[0]
+    return doc["timestamp"]
+
+
+def get_last_measure(collection):
+    doc = collection.collection.find().sort("timestamp", pymongo.DESCENDING).limit(1)[0]
     return doc["timestamp"]
 
 
