@@ -4,7 +4,6 @@ from django.shortcuts import render
 import json
 from datetime import datetime, timedelta
 import pymongo
-import datetime
 
 
 def all_reads(request):
@@ -33,7 +32,7 @@ def all_reads(request):
 def is_updated(request):
     coll = get_collection()
     last_read = get_last_measure(coll)
-    time_now = datetime.datetime.now()
+    time_now = datetime.now()
     time_difference = time_now - last_read
     time_difference_in_minutes = time_difference.total_seconds() / 60
     updated = True if time_difference_in_minutes <= 30 else False
